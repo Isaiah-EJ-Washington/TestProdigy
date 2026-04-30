@@ -1,4 +1,4 @@
-﻿
+
 
 /* ============================================
    1. GLOBAL VARIABLES & RESET
@@ -210,6 +210,7 @@ header.scrolled .logo-img {
         }
 
 /* Mobile menu button - hidden on desktop */
+/* Mobile menu - base styles */
 .menu-toggle {
     display: none;
     background: none;
@@ -228,7 +229,7 @@ header.scrolled .logo-img {
         transition: all 0.3s ease;
     }
 
-/* Show hamburger on mobile */
+/* Show on mobile only */
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
@@ -257,7 +258,7 @@ header.scrolled .logo-img {
             right: 0;
         }
 
-    /* Hamburger animation when open */
+    /* Hamburger animation */
     .menu-toggle.active span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
     }
@@ -370,19 +371,10 @@ header.scrolled .logo-img {
 }
 
 /* Featured Athletes */
-
-
-.athletes-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-}
-
 .featured-athletes {
     text-align: center;
     padding: 100px 5%;
+    overflow: hidden;
 }
 
     .featured-athletes h2 {
@@ -390,34 +382,111 @@ header.scrolled .logo-img {
         margin-bottom: 3rem;
     }
 
-.athletes-grid-container {
-    display: block !important;
+/* Horizontal scroll container */
+.athletes-scroll-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 }
 
-/* Card container */
+/* Horizontal scroll grid */
+.athletes-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 2rem !important;
+    overflow-x: auto !important;
+    scroll-behavior: smooth;
+    padding: 1rem 0.5rem 2rem 0.5rem;
+    margin: 0 auto;
+}
+
+    /* Hide scrollbar on Chrome/Safari while keeping functionality */
+    .athletes-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .athletes-grid::-webkit-scrollbar-track {
+        background: var(--color-border);
+        border-radius: 10px;
+    }
+
+    .athletes-grid::-webkit-scrollbar-thumb {
+        background: var(--color-gold);
+        border-radius: 10px;
+    }
+
+    /* Individual cards - fixed width in horizontal scroll */
+    .athletes-grid .flip-card {
+        flex: 0 0 auto !important;
+        width: 280px;
+        min-width: 280px;
+    }
+
+/* Scroll indicators (arrows) */
+.scroll-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.scroll-arrow {
+    background: rgba(201, 168, 76, 0.1);
+    border: none;
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+    .scroll-arrow:hover {
+        background: var(--color-gold);
+        color: var(--color-text-dark);
+        transform: scale(1.1);
+    }
+
+.scroll-text {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
+
+/* Hide scroll indicators on mobile if preferred */
+@media (max-width: 768px) {
+    .scroll-text {
+        display: none;
+    }
+}
+
+/* Flip card sizing remains the same */
 .flip-card {
     background-color: transparent;
-    width: 100%;
+    width: 280px;
     height: 400px;
     perspective: 1000px;
     cursor: pointer;
 }
 
-/* Card inner */
 .flip-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
+    text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
 }
 
-/* Flipped state */
 .flip-card.flipped .flip-card-inner {
     transform: rotateY(180deg);
 }
 
-/* Front and back shared */
 .flip-card-front, .flip-card-back {
     position: absolute;
     width: 100%;
@@ -427,51 +496,28 @@ header.scrolled .logo-img {
     overflow: hidden;
 }
 
-/* FRONT CARD */
 .flip-card-front {
     background: linear-gradient(145deg, #1e3042, #0a1520);
     border: 1px solid rgba(201, 168, 76, 0.3);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
-    transform: translateY(0);
-    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
-
-    .flip-card-front:hover {
-        transform: translateY(-4px);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 168, 76, 0.2);
-    }
-
 
     .flip-card-front img {
         width: 100%;
         height: 250px;
         object-fit: cover;
-        box-shadow: inset 0 -20px 20px -10px rgba(0, 0, 0, 0.5);
-        position: relative;
     }
-
-        .flip-card-front img::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-        }
 
     .flip-card-front h3 {
         margin: 1rem 0 0.25rem;
         font-size: 1.2rem;
         color: var(--color-text-primary);
-        font-weight: 700;
     }
 
     .flip-card-front p {
         font-size: 0.9rem;
         color: var(--color-gold) !important;
-        font-weight: 500;
-        letter-spacing: 0.3px;
         margin-bottom: 0.5rem;
     }
 
@@ -482,7 +528,6 @@ header.scrolled .logo-img {
     opacity: 0.7;
 }
 
-/* BACK CARD */
 .flip-card-back {
     background: var(--color-gold);
     color: var(--color-text-dark);
@@ -495,7 +540,6 @@ header.scrolled .logo-img {
 
     .flip-card-back h3 {
         margin-bottom: 1rem;
-        font-size: 1.3rem;
         color: var(--color-text-dark);
     }
 
@@ -522,35 +566,6 @@ header.scrolled .logo-img {
     margin-top: 1rem;
     display: block;
     text-align: center;
-}
-
-
-.featured-athletes h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-    .featured-athletes h2 .gold-text {
-        color: var(--color-gold);
-    }
-
-/* ===== MOBILE: FEATURED ATHLETES - 1 COLUMN ===== */
-@media (max-width: 768px) {
-    .athletes-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1.5rem;
-        max-width: 320px;
-        margin: 0 auto;
-    }
-
-    .flip-card {
-        height: 380px;
-        width: 100%;
-    }
-
-    .flip-card-front img {
-        height: 220px;
-    }
 }
 
 /* 1. Fit Item Text - Force White */
@@ -1670,7 +1685,6 @@ header.scrolled .logo-img {
 .founder-content {
     flex: 2;
 }
-
     .founder-content h2 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
