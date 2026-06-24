@@ -388,22 +388,24 @@ header.scrolled .logo-img {
     width: 100%;
     margin: 0 auto;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: visible !important; /* Allows card to extend beyond container */
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    padding: 0 0 20px 0; /* Add padding at bottom for scrollbar */
 }
-
-/* Horizontal scroll grid */
 .athletes-grid {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     gap: 2rem !important;
     overflow-x: auto !important;
+    overflow-y: visible !important; /* Allows flip to be visible */
     scroll-behavior: smooth;
     padding: 1rem 0.5rem 2rem 0.5rem;
     margin: 0 auto;
+    align-items: stretch; /* Ensures cards stay aligned */
 }
+
 
     /* Hide scrollbar on Chrome/Safari while keeping functionality */
     .athletes-grid::-webkit-scrollbar {
@@ -422,10 +424,11 @@ header.scrolled .logo-img {
 
     /* Individual cards - fixed width in horizontal scroll */
     .athletes-grid .flip-card {
-        flex: 0 0 auto !important;
-        width: 280px;
-        min-width: 280px;
-    }
+    flex: 0 0 auto !important;
+    width: 280px;
+    min-width: 280px;
+    margin-bottom: 10px; /* Extra space for flip */
+}
 
 /* Scroll indicators (arrows) */
 .scroll-indicators {
@@ -472,8 +475,10 @@ header.scrolled .logo-img {
     height: 400px;
     perspective: 1000px;
     cursor: pointer;
+    overflow: visible !important; /* Prevent clipping */
 }
 
+/* Flip card inner - no overflow clipping */
 .flip-card-inner {
     position: relative;
     width: 100%;
@@ -481,6 +486,7 @@ header.scrolled .logo-img {
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
+    overflow: visible !important;
 }
 
 .flip-card.flipped .flip-card-inner {
@@ -543,6 +549,32 @@ header.scrolled .logo-img {
         color: var(--color-text-dark);
     }
 
+/* ===== FIX: CARD FLIP VISIBILITY ===== */
+
+/* Ensure the entire card container allows overflow */
+.featured-athletes {
+    overflow: visible !important;
+    padding-bottom: 60px; /* Extra bottom padding for flipped cards */
+}
+
+/* Make sure cards don't get cut off on hover/flip */
+.flip-card,
+.flip-card-inner,
+.flip-card-front,
+.flip-card-back {
+    overflow: visible !important;
+}
+
+.athletes-scroll-wrapper {
+    overflow: visible !important;
+    padding: 10px 0 30px 0;
+}
+
+/* Add a slight delay to flip to ensure smooth rendering */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 .athlete-details {
     text-align: left;
     font-size: 0.9rem;
