@@ -3,19 +3,28 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // ============================================
-    // 1. FLIP CARDS
+    // 1. FLIP CARDS 
     // ============================================
     function initFlipCards() {
         document.querySelectorAll('.flip-card').forEach(card => {
-            card.addEventListener('click', function (e) {
+            // Remove any existing listeners to avoid duplicates
+            card.removeEventListener('click', card._flipHandler);
+
+            // Create the handler
+            const handler = function (e) {
                 if (e.target.closest('a, button')) return;
                 this.classList.toggle('flipped');
-            });
+            };
+
+            // Store the handler so we can remove it later if needed
+            card._flipHandler = handler;
+            card.addEventListener('click', handler);
         });
+        console.log('Flip cards initialized. Found:', document.querySelectorAll('.flip-card').length);
     }
 
     // ============================================
-    // 2. CAROUSEL - JavaScript Driven
+    // 2. CAROUSEL 
     // ============================================
     function initCarousel() {
         const track = document.getElementById('carouselTrack');
@@ -151,6 +160,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Build the carousel with 2 sets for seamless loop
         const cardsHTML = athletes.map(a => buildCard(a)).join('');
         track.innerHTML = cardsHTML + cardsHTML;
+
+        // ===== CRITICAL: Initialize flip cards AFTER they are created =====
+        initFlipCards();
 
         // Carousel State
         let currentIndex = 0;
@@ -470,8 +482,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ============================================
     // 10. INIT ALL
     // ============================================
+    
     initFlipCards();
-    initCarousel();
+    initCarousel(); 
     initHorizontalScroll();
     initAccordion();
     initCountUp();
