@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // ============================================
 
 // Replace with your published Google Sheets CSV URL
-const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?output=csv';
+const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRroEc8ZesUQGB8CbY_C8MafEFB8CQ-SScGX4CFzO1bkPDOwmq3AUBPBsZtb8LqZUeHpGUgY81zM66w/pub?output=csv';
 
 async function loadTickerStats() {
     const track = document.getElementById('tickerTrack');
